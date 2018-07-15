@@ -1,0 +1,38 @@
+<!--
+  Generated template for the CompanyPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+	<ion-navbar>
+		<ion-title>Company</ion-title>
+	</ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<div *ngIf="data!=''" style="cursor: pointer;">
+		<ion-card *ngFor="let propData of data" (click)="viewSingle(propData.id)">
+			<ion-grid>
+				<ion-row>
+					<ion-col col-4>
+						<ion-avatar item-start>
+							<img *ngIf="propData.logo" src="{{pix_url}}{{propData.logo}}" style="height: 100px;">
+						</ion-avatar>
+					</ion-col>
+					<ion-col col-8>
+						<p style="font-size: 16px;">{{ propData.name }}</p>
+						<p style="font-size: 16px;">{{ propData.email }}</p>
+					</ion-col>
+				</ion-row>
+			</ion-grid>
+		</ion-card>
+	</div>
+	<ion-fab right bottom>
+		<button ion-fab color="danger" (click)="addfab()"><ion-icon name="add"></ion-icon></button>
+	</ion-fab> 
+	
+</ion-content>

@@ -1,0 +1,49 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-title>
+			Add New Employee
+		</ion-title>
+		<ion-buttons start>
+			<button ion-button (click)="dismiss()">
+				<span ion-text color="primary" showWhen="ios">Cancel</span>
+				<ion-icon name="md-close" showWhen="android, windows"></ion-icon>
+			</button>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-header>
+<ion-content padding text-center class="vertical-align-content">
+	<ion-grid>
+		<ion-row>
+			<ion-col width-100>
+				<ion-list>
+					<form (ngSubmit)="saveForm()" #employeeForm=ngForm class="form">
+						<ion-item>
+							<ion-label floating>Firstname</ion-label>
+							<ion-input [(ngModel)]="employeeData.firstname" name="firstname" type="text"></ion-input>
+						</ion-item>
+						<ion-item>
+							<ion-label floating>Lastname</ion-label>
+							<ion-input [(ngModel)]="employeeData.lastname" name="lastname" type="text"></ion-input>
+						</ion-item>
+						<ion-item>
+							<ion-label floating>Company Name</ion-label>
+							<ion-select [(ngModel)]="employeeData.company_id" name="company_id" *ngIf="datas !=''">
+								<ion-option value="{{propData.id}}" *ngFor="let propData of datas">{{propData.name}}</ion-option>
+							</ion-select>
+						</ion-item>
+						<ion-item>
+							<ion-label floating>Email</ion-label>
+							<ion-input [(ngModel)]="employeeData.email" name="email" type="email"></ion-input>
+						</ion-item>
+						<ion-item>
+							<ion-label floating>Phone</ion-label>
+							<ion-input [(ngModel)]="employeeData.phone" name="phone" type="tel"></ion-input>
+						</ion-item>
+						<button ion-button type="submit" block style=" margin-top: 15px;" [disabled]="!employeeForm.valid">Save</button>
+					</form>
+				</ion-list>
+			</ion-col>
+		</ion-row>  
+	</ion-grid>
+</ion-content>
+

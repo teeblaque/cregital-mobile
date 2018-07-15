@@ -1,0 +1,30 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>login</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding text-center class="vertical-align-content">
+	<ion-grid>
+		<ion-row>
+		<ion-col width-100>
+			<ion-list>
+				<form (ngSubmit)="saveForm()" class="form">
+					<ion-item>
+						<ion-label fixed>Email</ion-label>
+						<ion-input [(ngModel)]="loginData.email" name="email" type="email"></ion-input>
+					</ion-item>
+					<ion-item>
+						<ion-label fixed>Password</ion-label>
+						<ion-input [(ngModel)]="loginData.password" name="password" type="password"></ion-input>
+					</ion-item>
+					<button ion-button type="submit" block style=" margin-top: 15px;">Login</button>
+				</form>
+			</ion-list>
+		</ion-col>
+	</ion-row>	
+	</ion-grid>
+</ion-content>

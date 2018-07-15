@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Add New Company
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text color="primary" showWhen="ios">Cancel</span>
+        <ion-icon name="md-close" showWhen="android, windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding text-center class="vertical-align-content">
+  <ion-grid>
+    <ion-row>
+      <ion-col width-100>
+        <ion-list>
+          <form (ngSubmit)="saveForm()" #companyForm=ngForm class="form">
+            <ion-item>
+              <ion-label fixed>Company Name</ion-label>
+              <ion-input [(ngModel)]="companyData.name" name="name" type="text"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label fixed>Email</ion-label>
+              <ion-input [(ngModel)]="companyData.email" name="email" type="email"></ion-input>
+            </ion-item>
+            <ion-item>
+              <p>{{imageURI}}</p>
+              <button ion-button color="secondary" (click)="getImage()">Upload company logo</button>
+            </ion-item>
+            <ion-item>
+              <!-- <h4>Image Preview</h4> -->
+              <img src="{{imageFileName}}" *ngIf="imageFileName" alt="Ionic File" width="300" />
+            </ion-item>
+            <button ion-button type="submit" block style=" margin-top: 15px;" [disabled]="!companyForm.valid">Save</button>
+          </form>
+        </ion-list>
+      </ion-col>
+    </ion-row>  
+  </ion-grid>
+</ion-content>
+
