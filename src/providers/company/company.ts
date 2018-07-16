@@ -18,8 +18,28 @@ export class CompanyProvider {
 
   constructor(public http: Http) {
     console.log('Hello CompanyProvider Provider');
-    this.url = 'http://localhost:8000/api';
+    this.url = 'http://cregital.cleanritemaintenanceservices.com.ng/api';
   }
+
+   companySave(token, credentials) {
+      return new Promise((resolve, reject) => {
+        let headers = new Headers();
+        const listPubVal: string = 'Bearer ' + token;
+        console.log('token in provider: '+ token);
+
+        headers.append('Accept', 'application/json');
+        headers.append('Authorization', listPubVal);
+        
+        let options = new RequestOptions({ headers: headers });
+        
+        this.http.post(this.url+'/company/create', credentials, options)
+        .subscribe(res => {
+          resolve(res.json());
+        }, (err) => {
+          reject(err);
+        });
+      });
+    }
 
   getCompanies(token)
   {

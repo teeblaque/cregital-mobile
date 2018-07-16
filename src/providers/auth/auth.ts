@@ -9,7 +9,7 @@ export class AuthProvider {
 
   constructor(public http: Http) {
     console.log('Hello AuthProvider Provider');
-    this.url = 'http://localhost:8000/api/login';
+    this.url = 'http://cregital.cleanritemaintenanceservices.com.ng/api/login';
   }
 
   login(credentials) {

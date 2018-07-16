@@ -23,8 +23,8 @@ import { EmployeeProvider } from '../../providers/employee/employee';
  export class EmployeePage {
    token:any;
    loading: any;
-   data:any[];
-   datas:any;
+   data:any = [];
+   datas:any =[];
 
    constructor(public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController, private alert:AlertController,
      private storage: Storage, private toast:ToastController, private loader:LoadingController, private emp: EmployeeProvider) {
@@ -94,19 +94,25 @@ import { EmployeeProvider } from '../../providers/employee/employee';
    }
 
    viewSingle(id){
+     console.log(id);
+     
      this.emp.getSingleEmployee(id, this.token).subscribe(result => {
-       console.log(result);
-       this.datas = result.data;
 
-       this.showConfirm(this.datas.id, this.datas.name, this.datas.email);
+       if (result.status == 200) { 
+         this.datas = result.data;
+         console.log(this.datas);
+
+         this.showConfirm(id, this.datas.firstname, this.datas.lastname);
+         
+       }
      });
      
    }
 
-   showConfirm(id, name, email) {
+   showConfirm(id, firstname, lastname) {
      const confirm = this.alert.create({
-       title: name,
-       message: email,
+       title: firstname,
+       message: lastname,
        buttons: [
        {
          text: 'Delete',
@@ -125,6 +131,10 @@ import { EmployeeProvider } from '../../providers/employee/employee';
        ]
      });
      confirm.present();
+   }
+
+   updateEmp(){
+     
    }
 
    delete(id){

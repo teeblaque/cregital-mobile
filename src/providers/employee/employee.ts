@@ -12,27 +12,27 @@ import { HttpClient } from '@angular/common/http';
   @Injectable()
   export class EmployeeProvider {
   	url;
+    token;
 
   	private headers = new Headers();
   	private headers_formdata: Headers = new Headers({'Content-Type': undefined});
 
   	constructor(public http: Http) {
   		console.log('Hello CompanyProvider Provider');
-  		this.url = 'http://localhost:8000/api';
+  		this.url = 'http://cregital.cleanritemaintenanceservices.com.ng/api';
   	}
 
-  	saveEmployee(token, credentials)
-  	{
-      const listPubVal: string = 'Bearer ' + token;
-      this.headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded'});
-      this.headers.append('Authorization', listPubVal);
-
+     loginSave(token, credentials) {
       return new Promise((resolve, reject) => {
         let headers = new Headers();
+        const listPubVal: string = 'Bearer ' + token;
+        console.log('token in provider: '+ token);
+
         headers.append('Accept', 'application/json');
-
+        headers.append('Authorization', listPubVal);
+        
         let options = new RequestOptions({ headers: headers });
-
+        
         this.http.post(this.url+'/employee/create', credentials, options)
         .subscribe(res => {
           resolve(res.json());
@@ -40,25 +40,6 @@ import { HttpClient } from '@angular/common/http';
           reject(err);
         });
       });
-    }
-
-    employeeSave(credentials, token)
-    {
-      const toks: string = 'Bearer ' + token;
-      this.headers.append('Authorization', toks);
-
-       return new Promise((resolve, reject) => {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let options = new RequestOptions({ headers: headers });
-
-        this.http.post(this.url+'/employee/create', credentials, options)
-          .subscribe(res => {
-            resolve(res.json());
-          }, (err) => {
-            reject(err);
-          });
-    });
     }
 
     getEmployee(token)
@@ -120,18 +101,17 @@ import { HttpClient } from '@angular/common/http';
 
     updateEmp(id, token, credentials)
     {
-      const listPubVal: string = 'Bearer ' + token;
-      this.headers = new Headers({'Content-Type': 'application/json'});
-      this.headers.append('Authorization', listPubVal);
-
       return new Promise((resolve, reject) => {
         let headers = new Headers();
+        const listPubVal: string = 'Bearer ' + token;
+        console.log('token in provider: '+ token);
+
         headers.append('Accept', 'application/json');
-        this.headers.append('Authorization', listPubVal);
-
+        headers.append('Authorization', listPubVal);
+        
         let options = new RequestOptions({ headers: headers });
-
-        this.http.post(this.url+'/employee/updates/'+id, credentials, options)
+        
+        this.http.post(this.url+'/employee/create'+id, credentials, options)
         .subscribe(res => {
           resolve(res.json());
         }, (err) => {

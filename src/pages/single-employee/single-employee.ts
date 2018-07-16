@@ -54,11 +54,13 @@ export class SingleEmployeePage {
   {
   	this.showLoader("Please wait...");
   	this.employee.editEmp(id, token).subscribe(result => {
-  		this.employeeData = result;
+      this.loading.dismiss();
+  		this.employeeData = result.data;
   		console.log(this.employeeData);
   		
   	}, (err) => {
   		console.log(err);
+      this.loading.dismiss();
   		this.presentToast("Error: " + err);
   	});
   }

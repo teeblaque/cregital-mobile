@@ -23,7 +23,7 @@ import { CompanyProvider } from '../../providers/company/company';
  export class CompanyPage {
 
  	token:any;
- 	data:any;
+ 	data:any =[];
  	loading:any;
  	pix_url:any;
  	datas: any;
@@ -123,9 +123,11 @@ import { CompanyProvider } from '../../providers/company/company';
  		this.showLoader();
  		this.company.getCompanies(token).subscribe(result => {
  			this.loading.dismiss();
+ 			
+ 			
  			if (result.status == 200) { 
- 				this.data = result.data;
- 				this.pix_url="http://localhost:8000/logo/";
+ 				this.pix_url="http://cregital.cleanritemaintenanceservices.com.ng/logo/";
+ 				this.data = result.data.data;
  				console.log(this.data);
 
  			}

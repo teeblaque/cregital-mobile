@@ -14,7 +14,7 @@
 
 
 <ion-content padding>
-	<div *ngIf="data!=''" style="cursor: pointer;">
+	<div *ngIf="data !=''" style="cursor: pointer;">
 		<ion-card *ngFor="let propData of data" (click)="viewSingle(propData.id)">
 			<ion-grid>
 				<ion-row>

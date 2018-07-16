@@ -16,7 +16,7 @@
     <ion-row>
       <ion-col width-100>
         <ion-list>
-          <form (ngSubmit)="saveForm()" #companyForm=ngForm class="form">
+          <form (ngSubmit)="uploadFile()" #companyForm=ngForm class="form">
             <ion-item>
               <ion-label fixed>Company Name</ion-label>
               <ion-input [(ngModel)]="companyData.name" name="name" type="text"></ion-input>
@@ -26,12 +26,15 @@
               <ion-input [(ngModel)]="companyData.email" name="email" type="email"></ion-input>
             </ion-item>
             <ion-item>
-              <p>{{imageURI}}</p>
-              <button ion-button color="secondary" (click)="getImage()">Upload company logo</button>
+              <!-- <ion-input [(ngModel)]="companyData.logo" name="logo" type="logo" value="">{{lastImage}}</ion-input> -->
+              <p>{{lastImage}}</p>
+              <!-- <img src="{{imageURI}}" *ngIf="imageURI" alt="Ionic File" width="300" /> -->
+              <ion-icon name="camera" style="font-size: 30px; text-align: center;" (click)="presentActionSheet()"></ion-icon>
+              <h4>Upload a logo!</h4>
+              
             </ion-item>
             <ion-item>
-              <!-- <h4>Image Preview</h4> -->
-              <img src="{{imageFileName}}" *ngIf="imageFileName" alt="Ionic File" width="300" />
+              <img src="{{pathForImage(lastImage)}}" style="width: 100%; height: 25%;" [hidden]="lastImage === null">
             </ion-item>
             <button ion-button type="submit" block style=" margin-top: 15px;" [disabled]="!companyForm.valid">Save</button>
           </form>

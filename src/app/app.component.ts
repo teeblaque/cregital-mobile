@@ -3,7 +3,7 @@ import { Platform, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
-import { Network } from '@ionic-native/network';
+// import { Network } from '@ionic-native/network';
 
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login';
@@ -13,27 +13,15 @@ import { LoginPage } from '../pages/login/login';
 })
 export class MyApp {
   rootPage:any;
+  token:any;
 
-  public online:boolean = true;
-
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private storage: Storage, private network: Network, private alertCtrl: AlertController) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private storage: Storage, private alertCtrl: AlertController) {
     platform.ready().then(() => {
-      let type = this.network.type;
-
-      console.log("Connection type: ", type);
-
-      if (type == 'unknown' || type == "none" || type == undefined) { 
-        console.log("The device is not online");
-        this.online = false;
-        this.presentAlert('Network Error!!', 'Please connect your device to a network');
-
-      }else{
-        // Okay, so the platform is ready and our plugins are available.
+       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
-    }
-  });
+    });
   }
 
 
@@ -42,10 +30,12 @@ export class MyApp {
 
       this.storage.get('token').then((val) => {
         if (val != null) {
-          this.rootPage = TabsPage;
+          console.log(val);
+          this.token = JSON.parse(val);
         } else {
           this.rootPage = LoginPage;
         }
+        this.getPage(this.token);
       });
     }
 
@@ -56,6 +46,12 @@ export class MyApp {
         buttons: ['Dismiss']
       });
       alert.present();
+    }
+
+    getPage(token){
+      if (token) { 
+        this.rootPage = TabsPage;
+      }  
     }
 
   }

@@ -74,13 +74,12 @@ import { LoginPage } from '../login/login';
        console.log("url outside: "+ urlSearchParams);
        console.log("token outside:"+ this.token);
        
-       this.employee.employeeSave(urlSearchParams, this.token).then((result) => {
-         console.log("token inside save: " + this.token);
-         console.log("url inside: "+ urlSearchParams);
+       this.employee.loginSave(this.token, urlSearchParams).then((result) => {
+         this.loading.dismiss();
          this.empData = result;
          console.log(this.empData);
          this.presentToast('Employee added succesfully');
-         this.viewCtrl.dismiss();
+         // this.viewCtrl.dismiss();
          
        }, (err) => {
          this.loading.dismiss();
@@ -122,7 +121,7 @@ import { LoginPage } from '../login/login';
      this.employee.getCompanies(token).subscribe(result => {
        this.loading.dismiss();
        if (result.status == 200) { 
-         this.datas = result.data;
+         this.datas = result.data.data;
          console.log(this.datas);
        } 
      }, (err) => {
