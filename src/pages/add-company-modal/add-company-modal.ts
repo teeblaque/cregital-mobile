@@ -34,6 +34,8 @@ export class AddCompanyModalPage {
   imageURI:any;
   imageFileName:any;
 
+  header:any;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private viewCtrl:ViewController, private transfer: FileTransfer, private platform: Platform, private filePath: FilePath,
     private camera: Camera, public loadingCtrl: LoadingController, public toastCtrl: ToastController, private company: CompanyProvider, 
     private actionSheetCtrl: ActionSheetController, private file: File, private storage:Storage, private http:Http) {
@@ -55,14 +57,58 @@ export class AddCompanyModalPage {
       } else {
         this.navCtrl.setRoot(LoginPage);
       }
+    });
+  }
+
+  buildHeadersDeals(){
+    this.header = new Headers();
+    this.header.append('Authorization', 'bearer ' + this.token);
+  }
+
+  selectImage(selection: any) {
+    var options: any;
+
+    options = {
+      quality: 75,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      sourceType: selection,
+      allowEdit: true,
+      encodingType: this.camera.EncodingType.JPEG,     
+      saveToPhotoAlbum: false
+    };
+
+    this.camera.getPicture(options).then((imgUrl) => {
+
+      if (options.destinationType == this.camera.DestinationType.FILE_URI) {
+        console.log(imgUrl,'if');
+        var sourceDirectory = imgUrl.substring(0, imgUrl.lastIndexOf('/') + 1);
+        var sourceFileName = imgUrl.substring(imgUrl.lastIndexOf('/') + 1, imgUrl.length);
+        sourceFileName = sourceFileName.split('?').shift();
+        this.file.copyFile(sourceDirectory, sourceFileName, cordova.file.externalApplicationStorageDirectory, sourceFileName).then((result: any) => {
+          this.imageFileName = result.nativeURL;
+
+      // do api call here
+
+    }, (err) => {
+      console.log(JSON.stringify(err));
     })
+      }
+      else {
+        console.log(imgUrl,'else');
+        this.imageFileName = "data:image/jpeg;base64," + imgUrl;
+    //do here 
+  }
+}, (err) => {
+  console.log("Error in choosing image :" + JSON.stringify(err));
+});
+
   }
 
 
   uploadFile() {
     this.showLoader();
     const fileTransfer: FileTransferObject = this.transfer.create();
-    let url = 'http://cregital.cleanritemaintenanceservices.com.ng/api/company/create';
+    let url = 'http://localhost:8000/api/company/create';
 
     //File for Upload
     var targetPath = cordova.file.externalRootDirectory + this.imageURI; 
@@ -97,32 +143,6 @@ export class AddCompanyModalPage {
       this.presentToast(err);
     });
   }
-
-  // saveForm()
-  // {
-  //   if (this.companyData.email && this.companyData.name) { 
-  //     this.showLoader();
-
-  //     let urlSearchParams = new URLSearchParams();
-  //     urlSearchParams.append('name', this.companyData.name);
-  //     urlSearchParams.append('email', this.companyData.email);
-  //     urlSearchParams.append('logo', this.imageURI);
-
-  //     this.company.companySave(this.token, urlSearchParams).then((result) =>{
-  //       this.loading.dismiss();
-  //       this.comData = result;
-  //       console.log(this.comData);
-  //       this.presentToast('Employee added succesfully');
-  //     }, (err) => {
-  //       this.loading.dismiss();
-  //       alert(err);
-  //       // this.presentToast('Error!!! ' + err);
-  //     });
-
-  //   } else {
-  //     this.presentToast('All fields are required');
-  //   }
-  // }
 
   presentToast(msg) {
     let toast = this.toastCtrl.create({
